@@ -9,6 +9,7 @@
 #include <list>
 
 #include "vector.cpp"
+#include "list_old.cpp"
 
 using std::cin;
 using std::cout;
@@ -26,7 +27,7 @@ int test_vector()
 {
 
     MY_LIB::vector<std::string> v;
-    v.pop_back();
+    //v.pop_back();
     v.push_back("hello");
     cout << 1 << endl;
     v.emplace_back();
@@ -51,27 +52,32 @@ int test_vector()
 }
 
 int test_list(){
-    std::list<int> l;
-
-    std::vector<int> v;
-    v.emplace_back();
+    MY_LIB::list<int> l;
 
     l.push_back(1);
     l.push_front(2);
     l.emplace_back(3);
     l.emplace_front(4);
 
-    for (std::list<int>::iterator it=l.begin();it!=l.end();it++) {
+    for (MY_LIB::list<int>::iterator it=l.begin();it!=l.end();it++) {
         cout<<*it<<endl;
     }
 
-    std::list<int>::iterator it_tmp=l.begin();
-    it_tmp++;
-    l.insert(it_tmp,99);
-    cout<<*it_tmp<<endl;
-    it_tmp--;
-    cout<<*it_tmp<<endl;
-    l.erase()
+    l.pop_back();
+    l.push_front(72);
+    l.push_front(73);
+    l.pop_front();
+
+    for (MY_LIB::list<int>::iterator it=l.begin();it!=l.end();it++) {
+        cout<<*it<<endl;
+    }
+
+    //MY_LIB::list<int>::iterator it_tmp=l.begin();
+    //it_tmp++;
+    //l.insert(it_tmp,99);
+    //cout<<*it_tmp<<endl;
+    //it_tmp--;
+    //cout<<*it_tmp<<endl;
 
     cout<<"ll"<<endl;
 
