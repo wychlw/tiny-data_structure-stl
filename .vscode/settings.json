@@ -1,5 +1,7 @@
 {
     "files.associations": {
+        "*.ejs": "html",
+        "*.h": "cpp",
         "algorithm": "cpp",
         "iostream": "cpp",
         "ostream": "cpp",
@@ -46,7 +48,10 @@
         "utility": "cpp",
         "limits": "cpp",
         "ranges": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "map": "cpp",
+        "stack": "cpp",
+        "es6_promise": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

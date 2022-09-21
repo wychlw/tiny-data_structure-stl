@@ -4,82 +4,68 @@
 #endif
 
 #include <iostream>
-#include <string>
-#include <vector>
-#include <list>
+#include <functional>
+#include <utility>
+#include "tree.hpp"
 
-#include "vector.cpp"
-#include "list_old.cpp"
+using namespace std;
+using namespace my_lib;
 
-using std::cin;
-using std::cout;
-using std::endl;
+#define ll long long int
 
-int test_vector();
-int test_list();
+#define DEBUG
 
+#if defined(DEBUG)
 
-int main(){
-    return test_list();
+void DBG_p()
+{
+}
+template <typename T, typename... Args> void DBG_p(T head, Args... args)
+{
+    cout << " " << head;
+    DBG_p(args...);
+}
+template <typename... Args> void DBG(Args... args)
+{
+    cout << "DBG: ";
+    DBG_p(args...);
+    cout << endl;
 }
 
-int test_vector()
+template <typename T> void DBGA(T arr)
+{
+    cout << "DBG: ";
+    for (auto i : arr)
+    {
+        DBG_p('f',i.first,i.second,'b');
+    }
+    cout << endl;
+}
+#else
+#define DBG(f, ...) void()
+#endif
+
+less<int> l;
+
+int main()
 {
 
-    MY_LIB::vector<std::string> v;
-    //v.pop_back();
-    v.push_back("hello");
-    cout << 1 << endl;
-    v.emplace_back();
-    cout << 2 << endl;
-    v.push_back("world!");
-    cout << 3 << endl;
-    for (MY_LIB::vector<std::string>::iterator it = v.begin(); it != v.end(); it++)
-    {
-        cout << *it << endl;
-    }
-    v.push_back("test");
-    for (MY_LIB::vector<std::string>::iterator it = v.begin(); it != v.end(); it++)
-    {
-        cout << *it << endl;
-    }
-    v.pop_back();
-    for (MY_LIB::vector<std::string>::iterator it = v.begin(); it != v.end(); it++)
-    {
-        cout << *it << endl;
-    }
-    return 0;
-}
+    RBTree<int,int> t;
+    t[1]=11;
+    t.insert(2,12);
+    t.get(3)=13;
+    t.insert(0,10);
+    t.insert(3,13);
+    t.insert(-5,-15);
+    t.insert(-3,-13);
+    t.insert(-4,-14);
+    t.insert(-2,-12);
+    t.prt_tree();
 
-int test_list(){
-    MY_LIB::list<int> l;
+    t.remove(1);
+    t.remove(-3);
+    t.prt_tree();
 
-    l.push_back(1);
-    l.push_front(2);
-    l.emplace_back(3);
-    l.emplace_front(4);
-
-    for (MY_LIB::list<int>::iterator it=l.begin();it!=l.end();it++) {
-        cout<<*it<<endl;
-    }
-
-    l.pop_back();
-    l.push_front(72);
-    l.push_front(73);
-    l.pop_front();
-
-    for (MY_LIB::list<int>::iterator it=l.begin();it!=l.end();it++) {
-        cout<<*it<<endl;
-    }
-
-    //MY_LIB::list<int>::iterator it_tmp=l.begin();
-    //it_tmp++;
-    //l.insert(it_tmp,99);
-    //cout<<*it_tmp<<endl;
-    //it_tmp--;
-    //cout<<*it_tmp<<endl;
-
-    cout<<"ll"<<endl;
-
+    cout<<t[3]<<' '<<t[0]<<' '<<t[-1]<<' '<<t[-2]<<endl;
     return 0;
 }

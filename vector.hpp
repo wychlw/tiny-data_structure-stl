@@ -1,9 +1,11 @@
-
+#ifndef _MY_VECTOR
 #define _MY_VECTOR
 
-#ifndef _STDDEF_H
 #include <stddef.h>
-#endif
+#include <functional>
+#include <utility>
+#include <exception>
+
 
 namespace MY_LIB
 {
@@ -55,7 +57,7 @@ namespace MY_LIB
             catch (...)
             {
                 this->empty_memory();
-                throw std::runtime_error();
+                throw std::runtime_error("copy failed");
             }
         }
 
@@ -216,6 +218,13 @@ namespace MY_LIB
         {
             this->emplace_back(::std::move(value));
         }
+
+        ValueT back()
+        {
+            return *(end()-1);
+        }
     };
 
 } //namespace MY_LIB
+
+#endif

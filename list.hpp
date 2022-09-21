@@ -1,8 +1,9 @@
+#pragma once
+
 #define _MY_LIST
 
-#ifndef _STDDEF_H
-#include <stddef.h>
-#endif
+#include <functional>
+#include <cstddef>
 
 namespace MY_LIB
 {
@@ -97,9 +98,16 @@ namespace MY_LIB
         }
     };
 
+    template<typename T>
+    void swap(list_node<T> &a,list_node<T> &b)
+    {
+        std::swap(a.data_ptr,b.data_ptr);
+    }
+
     template <typename ValueT>
     struct list_iterator
     {
+        
         using self = list_iterator<ValueT>;
         using node = list_node<ValueT>;
 
@@ -114,6 +122,7 @@ namespace MY_LIB
 
         list_iterator() noexcept
         {
+            int a,b;
             this->m_node = nullptr;
         }
 
@@ -177,7 +186,6 @@ namespace MY_LIB
         {
             return !(x == y);
         }
-
     };
 
     template <typename ValueT>
@@ -209,9 +217,18 @@ namespace MY_LIB
         {
             base = new value_type;
             m_size = 0;
-            for (iterator it = rhs.begin(); it != rhs.end(); it++)
+            try
             {
-                push_back(*it);
+                for (iterator it = rhs.begin(); it != rhs.end(); it++)
+                {
+                    push_back(*it);
+                    m_size++;
+                }
+            }
+            catch (...)
+            {
+                empty();
+                throw;
             }
         }
 
@@ -233,7 +250,7 @@ namespace MY_LIB
         iterator insert(iterator pos, const ValueT &new_data)
         {
             pointer tmp = new value_type(pos.m_node->prev, pos.m_node, new_data);
-            pos.m_node->prev->next=tmp;
+            pos.m_node->prev->next = tmp;
             pos.m_node->prev = tmp;
             m_size++;
             return pos;
@@ -242,7 +259,7 @@ namespace MY_LIB
         iterator insert(iterator pos, ValueT &&new_data)
         {
             pointer tmp = new value_type(pos.m_node->prev, pos.m_node, new_data);
-            pos.m_node->prev->next=tmp;
+            pos.m_node->prev->next = tmp;
             pos.m_node->prev = tmp;
             m_size++;
             return pos;
