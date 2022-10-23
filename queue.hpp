@@ -1,9 +1,8 @@
 #pragma once
+#include <algorithm>
 #include <cstddef>
 #include <stdexcept>
 #include <utility>
-
-// std::deque<int>::iterator it;
 
 namespace my_lib
 {
@@ -115,7 +114,18 @@ template <typename ValueT> struct _deque_iterator
         offset = rhs.offset;
         chunk = rhs.chunk;
     }
+
     _deque_iterator &operator=(const _deque_iterator &) = default;
+
+    friend bool operator ==(const _deque_iterator&a,const _deque_iterator &b)
+    {
+        return a.chunk==b.chunk&&a.offset==b.offset;
+    }
+
+    friend bool operator !=(const _deque_iterator&a,const _deque_iterator &b)
+    {
+        return !(a==b);
+    }
 
     ValueT &operator*()
     {
@@ -192,10 +202,6 @@ template <typename ValueT> struct _deque_iterator
         _deque_iterator tmp = *this;
         tmp += n;
         return *tmp;
-    }
-    friend bool operator==(const _deque_iterator &a, const _deque_iterator &b)
-    {
-        return a.chunk == b.chunk && a.offset == b.offset;
     }
 };
 
@@ -437,14 +443,14 @@ template <typename ValueT> class deque
         {
             throw std::out_of_range("");
         }
-        if (n < map[map_beg]->back - map[map_beg]->end)
+        if (n < map[map_beg]->back - map[map_beg]->front)
         {
-            return map[map_beg][n];
+            return map[map_beg]->at(n+map[map_beg]->front);
         }
-        n -= map[map_beg]->back - map[map_beg]->end;
+        n -= map[map_beg]->back - map[map_beg]->front;
         size_t chunk_num = n / chunk_size;
         n -= chunk_num * chunk_size;
-        return map[chunk_num + 1][n];
+        return map[chunk_num + 1]->at(n);
     }
     ValueT &operator[](size_t n)
     {

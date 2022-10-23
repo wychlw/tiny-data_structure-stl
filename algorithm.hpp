@@ -4,9 +4,6 @@
 #include <cstring>
 #include <string>
 #include <vector>
-
-#include <ext/pb_ds/detail/trie_policy/trie_policy_base.hpp>
-
 namespace my_lib
 {
 
@@ -219,5 +216,29 @@ template <class T, size_t (*length_func)(const T)> int64_t kmp(const T s, const 
 
 template <> int64_t kmp<std::string, my_lib_private::get_size>(std::string s, std::string p);
 template <> int64_t kmp<char[], strlen>(const char s[], const char p[]);
+
+template <class Iterator> size_t string_hash1(const Iterator *beg, const Iterator *end)
+{
+    const size_t p = 19260817, mod = 1e9 + 7;
+    size_t res = 0;
+    while (beg != end)
+    {
+        res = (res * p + *beg) % mod;
+        beg++;
+    }
+    return res;
+}
+
+template <class Iterator> size_t string_hash2(const Iterator *beg, const Iterator *end)
+{
+    const size_t p = 1000003, mod = 1e9 + 7;
+    size_t res = 0;
+    while (beg != end)
+    {
+        res = (res * p + *beg) % mod;
+        beg++;
+    }
+    return res;
+}
 
 } // namespace my_lib

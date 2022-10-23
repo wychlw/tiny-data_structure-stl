@@ -1,2 +1,4 @@
 es6_promise
 test.cpp
+*.exe
+test.exe

@@ -498,7 +498,7 @@ template <typename K, typename V, typename _Cmp = std::less<K>> class RBTree
             return;
         }
 
-        if (node->key == key)
+        if (!Cmp(key, node->key)&&!Cmp(node->key,key))
         {
             node->set_val(val);
         }
@@ -540,7 +540,7 @@ template <typename K, typename V, typename _Cmp = std::less<K>> class RBTree
             return;
         }
 
-        if (key != node->key)
+        if (Cmp(key, node->key)||Cmp(node->key,key))
         {
             if (Cmp(key, node->key))
             {
@@ -662,7 +662,7 @@ template <typename K, typename V, typename _Cmp = std::less<K>> class RBTree
         {
             return false;
         }
-        if (key == node->key)
+        if (!Cmp(key, node->key)&&!Cmp(node->key,key))
         {
             return true;
         }
@@ -676,9 +676,25 @@ template <typename K, typename V, typename _Cmp = std::less<K>> class RBTree
         }
     }
 
+    K &get_key(RBTree_node *node,const K &key)
+    {
+        if (!Cmp(key, node->key)&&!Cmp(node->key,key))
+        {
+            return node->key;
+        }
+        if (Cmp(key, node->key))
+        {
+            return get_key(node->l, key);
+        }
+        else
+        {
+            return get_key(node->r, key);
+        }
+    }
+
     V &get(RBTree_node *node, const K &key)
     {
-        if (node->key == key)
+        if (!Cmp(key, node->key)&&!Cmp(node->key,key))
         {
             return node->data;
         }
@@ -733,6 +749,16 @@ template <typename K, typename V, typename _Cmp = std::less<K>> class RBTree
         }
 
         return get(root, key);
+    }
+
+    K &get_key(const K &key)
+    {
+        if (!has_key(key))
+        {
+            insert(key, V());
+        }
+
+        return get_key(root, key);
     }
 
     /**

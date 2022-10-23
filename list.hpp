@@ -5,7 +5,7 @@
 #include <functional>
 #include <cstddef>
 
-namespace MY_LIB
+namespace my_lib
 {
     template <typename ValueT>
     struct list_node
@@ -227,7 +227,7 @@ namespace MY_LIB
             }
             catch (...)
             {
-                empty();
+                clear();
                 throw;
             }
         }
@@ -242,7 +242,7 @@ namespace MY_LIB
 
         ~list()
         {
-            empty();
+            clear();
             delete base;
         }
 
@@ -374,7 +374,7 @@ namespace MY_LIB
         }
 
     public:
-        void empty()
+        void clear()
         {
             erase(begin(), end());
         }
@@ -393,5 +393,10 @@ namespace MY_LIB
         {
             return m_size;
         }
+
+        bool empty()
+        {
+            return m_size==0;
+        }
     };
-} // namespace MY_LIB
+} // namespace my_lib
